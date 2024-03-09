@@ -5,6 +5,9 @@ import { FaBars } from "react-icons/fa";
 import { AiOutlineClose } from "react-icons/ai";
 
 function Header() {
+  // const dumy_data = { name: "muzammal" };
+  const data = JSON.parse(sessionStorage.getItem("user")) || "";
+  const [name, setName] = useState(data.name || "");
   const [isNavShowing, setIsNavShowing] = useState(
     window.innerWidth > 800 ? true : false
   );
@@ -17,6 +20,10 @@ function Header() {
     }
   };
 
+  const handleClick = () => {
+    if (confirm("Are you shure you want to logout?")) setName("");
+  };
+
   return (
     <nav>
       <div className="container nav_container">
@@ -26,9 +33,13 @@ function Header() {
         {isNavShowing && (
           <ul className="nav_menu">
             <li>
-              <Link to="/profile/asdasd" onClick={closeNave}>
-                Muhammad Muzammal
-              </Link>
+              {name ? (
+                <Link to="/profile/asdasd" onClick={closeNave}>
+                  {name}
+                </Link>
+              ) : (
+                ""
+              )}
             </li>
             <li>
               <Link to="/create" onClick={closeNave}>
@@ -41,9 +52,13 @@ function Header() {
               </Link>
             </li>
             <li>
-              <Link to="/logout" onClick={closeNave}>
-                LogOut
-              </Link>
+              {name ? (
+                <Link to="/" onClick={handleClick}>
+                  LogOut
+                </Link>
+              ) : (
+                <Link to="/login">Login</Link>
+              )}
             </li>
           </ul>
         )}

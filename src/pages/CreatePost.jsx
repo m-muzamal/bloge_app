@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -7,6 +8,25 @@ function CreatePost() {
   const [category, setCategory] = useState("Uncategorized");
   const [discription, setDiscription] = useState("");
   const [thumbnail, setThumbnail] = useState("");
+  const [error, setError] = useState("");
+
+  const handleClick = () => {
+    if (title === "" || category === "Uncategorized" || discription === "") {
+      setError("Please fill all the fileds.");
+      setTimeout(() => {
+        setError("");
+      }, 2000);
+      return;
+    }
+    axios.post("http://localhost:3001/api/blog", {
+      userid: "5",
+      title: title,
+      category: category,
+      about: discription,
+    });
+    console.log(title, category, discription, thumbnail);
+    alert("The blog is successfully created.");
+  };
 
   const modules = {
     toolbar: [
@@ -52,7 +72,7 @@ function CreatePost() {
     <section className="create-post">
       <div className="container">
         <h2>Create Post</h2>
-        <p className="form_error-message">This is an error message.</p>
+        {error ? <p className="form_error-message">{error}</p> : ""}
         <form className="form create-post_form">
           <input
             type="text"
@@ -81,7 +101,7 @@ function CreatePost() {
             onChange={(e) => setThumbnail(e.target.files[0])}
             accept="png, jpg, jpeg"
           />
-          <button type="submit" className="btn primary">
+          <button type="button" className="btn primary" onClick={handleClick}>
             Create
           </button>
         </form>

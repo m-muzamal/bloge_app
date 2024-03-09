@@ -1,7 +1,10 @@
+import axios from "axios";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Register() {
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
   const [userData, setUserData] = useState({
     name: "",
     email: "",
@@ -15,12 +18,46 @@ function Register() {
     });
   };
 
+  const handleClick = (e) => {
+    e.preventDefault();
+    if (
+      userData.name === "" ||
+      userData.email === "" ||
+      userData.password === ""
+    ) {
+      setError("Please fill all the fields!");
+      setTimeout(() => {
+        setError("");
+      }, 2000);
+    } else {
+      if (userData.password === userData.password2) {
+        axios.post("http://localhost:3001/api/data", {
+          name: userData.name,
+          email: userData.email,
+          password: userData.password,
+        });
+        console.log(userData.name);
+        console.log(userData.email);
+        console.log(userData.password);
+        console.log(userData.password2);
+        sessionStorage.setItem("user", JSON.stringify(userData));
+        alert("You are seccessfully registered.");
+        navigate("/login");
+      } else {
+        setError("Confirm password is not matched!");
+        setTimeout(() => {
+          setError("");
+        }, 2000);
+      }
+    }
+  };
+
   return (
     <section className="register">
       <div className="container">
         <h2>Sign Up</h2>
         <form className="form register_form">
-          <p className="form_error-message">This is an error message</p>
+          {error ? <p className="form_error-message">{error}</p> : ""}
           <input
             type="text"
             placeholder="Full Name"
@@ -49,7 +86,7 @@ function Register() {
             value={userData.password2}
             onChange={changeInputHandler}
           />
-          <button type="submit" className="btn primary">
+          <button type="button" className="btn primary" onClick={handleClick}>
             Register
           </button>
         </form>
