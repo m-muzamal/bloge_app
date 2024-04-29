@@ -1,19 +1,22 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import Avatar from "../assets/images/avatar2.jpg";
+import Avatar from "../assets/images/avtr.jpg";
 import { FaEdit, FaCheck } from "react-icons/fa";
 
 function UserProfile() {
+  const user = JSON.parse(localStorage.getItem("user"));
+  const [err, setErr] = useState("");
   const [avatar, setAvatar] = useState(Avatar);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
+
   return (
     <section className="profile">
       <div className="container profile_container">
-        <Link to={`/myposts/asda`} className="btn">
+        <Link to={`/myposts/${user.name}`} className="btn">
           My posts
         </Link>
         <div className="profile_details">
@@ -37,19 +40,19 @@ function UserProfile() {
               <FaCheck />
             </button>
           </div>
-          <h1>Muhammad Muzammal</h1>
+          <h1>{user.name}</h1>
           <form className="form profile_form">
-            <p className="form_error-message">This is an error message</p>
+            {err && <p className="form_error-message">{err}</p>}
             <input
               type="text"
               placeholder="Full name"
-              value={name}
+              value={user.name}
               onChange={(e) => setName(e.target.value)}
             />
             <input
               type="email"
               placeholder="Email"
-              value={email}
+              value={user.email}
               onChange={(e) => setEmail(e.target.value)}
             />
             <input

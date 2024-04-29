@@ -5,9 +5,11 @@ import { FaBars } from "react-icons/fa";
 import { AiOutlineClose } from "react-icons/ai";
 
 function Header() {
-  // const dumy_data = { name: "muzammal" };
-  const data = JSON.parse(sessionStorage.getItem("user")) || "";
-  const [name, setName] = useState(data.name || "");
+  const isLoggedIn = JSON.parse(localStorage.getItem("isLoggedIn"));
+  // console.log(isLoggedIn);
+  const user = JSON.parse(localStorage.getItem("user")) || "";
+  // console.log(user);
+  const [name, setName] = useState(user.name || "");
   const [isNavShowing, setIsNavShowing] = useState(
     window.innerWidth > 800 ? true : false
   );
@@ -21,7 +23,11 @@ function Header() {
   };
 
   const handleClick = () => {
-    if (confirm("Are you shure you want to logout?")) setName("");
+    if (confirm("Are you shure you want to logout?")) {
+      localStorage.removeItem("user");
+      localStorage.setItem("isLoggedIn", false);
+      window.location.reload();
+    }
   };
 
   return (
@@ -33,8 +39,13 @@ function Header() {
         {isNavShowing && (
           <ul className="nav_menu">
             <li>
+              <Link to={"/"} onClick={closeNave}>
+                Home
+              </Link>
+            </li>
+            <li>
               {name ? (
-                <Link to="/profile/asdasd" onClick={closeNave}>
+                <Link to={`/profile/${user?.name}`} onClick={closeNave}>
                   {name}
                 </Link>
               ) : (
@@ -42,13 +53,8 @@ function Header() {
               )}
             </li>
             <li>
-              <Link to="/create" onClick={closeNave}>
+              <Link to={isLoggedIn ? "/create" : "/login"} onClick={closeNave}>
                 Create Post
-              </Link>
-            </li>
-            <li>
-              <Link to="/authors" onClick={closeNave}>
-                Authors
               </Link>
             </li>
             <li>

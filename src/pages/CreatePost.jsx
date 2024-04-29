@@ -4,6 +4,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
 function CreatePost() {
+  const data = JSON.parse(localStorage.getItem("user")) || "";
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("Uncategorized");
   const [discription, setDiscription] = useState("");
@@ -23,9 +24,12 @@ function CreatePost() {
       title: title,
       category: category,
       about: discription,
+      author: data.name,
+      thumbnail: thumbnail,
     });
-    console.log(title, category, discription, thumbnail);
+    // console.log(title, category, discription, thumbnail);
     alert("The blog is successfully created.");
+    reset();
   };
 
   const modules = {
@@ -68,6 +72,13 @@ function CreatePost() {
     "Weather",
   ];
 
+  const reset = () => {
+    setCategory("");
+    setDiscription("");
+    setThumbnail("");
+    setTitle("");
+  };
+
   return (
     <section className="create-post">
       <div className="container">
@@ -79,6 +90,13 @@ function CreatePost() {
             placeholder="Title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
+            autoFocus
+          />
+          <input
+            type="text"
+            placeholder="Image url"
+            value={thumbnail}
+            onChange={(e) => setThumbnail(e.target.value)}
             autoFocus
           />
           <select
@@ -95,11 +113,6 @@ function CreatePost() {
             formats={formates}
             value={discription}
             onChange={setDiscription}
-          />
-          <input
-            type="file"
-            onChange={(e) => setThumbnail(e.target.files[0])}
-            accept="png, jpg, jpeg"
           />
           <button type="button" className="btn primary" onClick={handleClick}>
             Create

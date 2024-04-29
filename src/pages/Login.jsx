@@ -26,10 +26,7 @@ function Login() {
 
   const handleClick = () => {
     if (userData.email === "" || userData.password === "") {
-      setError("Please fill all the fields.");
-      setTimeout(() => {
-        setError("");
-      }, 2000);
+      displayErr("Please fill all the fields!");
       return;
     }
 
@@ -40,14 +37,24 @@ function Login() {
       )
     ) {
       alert("You are logged in.");
-      navigate("/");
-      setError("Invalid email or password!");
       localStorage.setItem("isLoggedIn", true);
-    } else {
-      setTimeout(() => {
-        setError("");
-      }, 2000);
+      navigate("/");
+      window.location.reload();
+    } else if (
+      data.some(
+        (user) =>
+          user.email !== userData.email || user.password !== userData.password
+      )
+    ) {
+      displayErr("Invalid email or password!");
     }
+  };
+
+  const displayErr = (msg) => {
+    setError(msg);
+    setTimeout(() => {
+      setError("");
+    }, 2000);
   };
 
   return (

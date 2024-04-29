@@ -1,24 +1,20 @@
-import React, { useState } from "react";
-import { DUMMY_POSTS } from "./data";
+import React, { useEffect, useState } from "react";
+// import { DUMMY_POSTS } from "./data";
 import Postitem from "../components/Postitem";
+import useFetch from "../hook/useFetch";
+import { useParams } from "react-router-dom";
 
 const Category = () => {
-  const [posts, setPosts] = useState(DUMMY_POSTS);
+  const peram = useParams();
+  const data = useFetch("http://localhost:3001/api/blog");
+  const filter = data?.filter((data) => data?.category === peram?.category);
 
   return (
     <section className="category_posts">
-      {posts.length > 0 ? (
+      {filter && filter?.length > 0 ? (
         <div className="container category-posts_container">
-          {posts.map(({ id, thumbnail, category, authorID, title, desc }) => (
-            <Postitem
-              key={id}
-              postID={id}
-              thumbnail={thumbnail}
-              category={category}
-              authorID={authorID}
-              title={title}
-              description={desc}
-            />
+          {filter?.map((data, index) => (
+            <Postitem key={index} data={data} />
           ))}
         </div>
       ) : (

@@ -36,11 +36,7 @@ function Register() {
           email: userData.email,
           password: userData.password,
         });
-        console.log(userData.name);
-        console.log(userData.email);
-        console.log(userData.password);
-        console.log(userData.password2);
-        sessionStorage.setItem("user", JSON.stringify(userData));
+        localStorage.setItem("user", JSON.stringify(userData));
         alert("You are seccessfully registered.");
         navigate("/login");
       } else {

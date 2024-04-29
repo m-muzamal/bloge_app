@@ -32,7 +32,7 @@ db.connect((err) => {
     console.log("Connected to database");
 });
 
-////////////(login)\\\\\\\\\\\\\\\\\\
+////////////(get data)\\\\\\\\\\\\\\\\\\
 app.get("/api/data", (req, res) => {
     const sql = "SELECT * FROM user";
     db.query(sql, (err, result) => {
@@ -55,7 +55,7 @@ app.post("/api/data", (req, res) => {
     });
 });
 
-/////////////////(blog)\\\\\\\\\\\\\\\\\\\\\\
+/////////////////(get blog)\\\\\\\\\\\\\\\\\\\\\\
 app.get("/api/blog", (req, res) => {
     const sql = "SELECT * FROM blog";
     db.query(sql, (err, result) => {
@@ -69,7 +69,7 @@ app.get("/api/blog", (req, res) => {
 
 ////////////(create post)\\\\\\\\\\\\\\\\\\
 app.post("/api/blog", (req, res) => {
-    const sql = `INSERT INTO blog (userid, title, category, about) VALUES ('${req.body.userid}', '${req.body.title}', '${req.body.category}', '${req.body.about}')`;
+    const sql = `INSERT INTO blog (userid, title, category, about, author, thumbnail) VALUES ('${req.body.userid}', '${req.body.title}', '${req.body.category}', '${req.body.about}', '${req.body.author}', '${req.body.thumbnail}')`;
     db.query(sql, (err, result) => {
         if (err) {
             throw err;
@@ -78,13 +78,17 @@ app.post("/api/blog", (req, res) => {
     });
 });
 
-////////////////(category blog)\\\\\\\\\\\\\\\\\
-app.get("/api/blog", (req, res) => {
-    const category = req.query.category;
-    const filteredPosts = posts.filter((posts) => posts.category === category);
-    res.json(filteredPosts);
+////////////(delete post)\\\\\\\\\\\\\\\\\\
+app.delete("/api/blog/:id", (req, res) => {
+    const postId = req.params.id;
+    const sql = `DELETE FROM blog WHERE idblog = ${postId}`;
+    db.query(sql, (err, result) => {
+        if (err) {
+            throw err;
+        }
+        res.json(result);
+    });
 });
-
 
 app.listen(3001, () => {
     console.log("Server running on port 3001");
