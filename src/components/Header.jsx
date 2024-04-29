@@ -39,11 +39,6 @@ function Header() {
         {isNavShowing && (
           <ul className="nav_menu">
             <li>
-              <Link to={"/"} onClick={closeNave}>
-                Home
-              </Link>
-            </li>
-            <li>
               {name ? (
                 <Link to={`/profile/${user?.name}`} onClick={closeNave}>
                   {name}
@@ -51,6 +46,11 @@ function Header() {
               ) : (
                 ""
               )}
+            </li>
+            <li>
+              <Link to={"/"} onClick={closeNave}>
+                Home
+              </Link>
             </li>
             <li>
               <Link to={isLoggedIn ? "/create" : "/login"} onClick={closeNave}>

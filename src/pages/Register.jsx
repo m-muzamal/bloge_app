@@ -36,7 +36,7 @@ function Register() {
           email: userData.email,
           password: userData.password,
         });
-        localStorage.setItem("user", JSON.stringify(userData));
+        // localStorage.setItem("user", JSON.stringify(userData));
         alert("You are seccessfully registered.");
         navigate("/login");
       } else {

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 function Login() {
+  const [user, setUser] = useState();
   const navigate = useNavigate();
   const [error, setError] = useState("");
   const [data, setData] = useState([]);
@@ -16,6 +17,12 @@ function Login() {
       .then((data) => setData(data))
       .catch((error) => console.error(error));
   }, []);
+
+  useEffect(() => {
+    const user = data?.find((user) => user.email === userData.email);
+    // console.log(user);
+    setUser(user);
+  }, [data, userData]);
 
   const changeInputHandler = (e) => {
     setUserData((prevState) => ({
@@ -38,6 +45,7 @@ function Login() {
     ) {
       alert("You are logged in.");
       localStorage.setItem("isLoggedIn", true);
+      localStorage.setItem("user", JSON.stringify(user));
       navigate("/");
       window.location.reload();
     } else if (
