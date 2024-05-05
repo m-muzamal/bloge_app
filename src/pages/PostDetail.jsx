@@ -5,6 +5,7 @@ import useFetch from "../hook/useFetch";
 import deletePost from "../hook/deletePost";
 
 function PostDetail() {
+  const isLoggedIn = JSON.parse(localStorage.getItem("isLoggedIn"));
   const navigate = useNavigate();
   const peram = useParams();
   const data = useFetch("http://localhost:3001/api/blog");
@@ -17,15 +18,26 @@ function PostDetail() {
     navigate("/");
   };
 
+  const handleNavigate = () => {
+    !isLoggedIn && alert("You have to login first!");
+    isLoggedIn
+      ? navigate(`/posts/${Number(peram.id)}/edit`)
+      : navigate("/login");
+  };
+
   return (
     <section className="post-detail">
       <div className="container post-detail_container">
         <div className="post-detail_header">
           <PostAuthor name={post?.author} />
           <div className="post-detail_buttons">
-            <Link to={`/post/werwer/edit`} className="btn sm primary">
+            <a
+              onClick={handleNavigate}
+              // to={`/posts/${Number(peram.id)}/edit`}
+              className="btn sm primary"
+            >
               Edit
-            </Link>
+            </a>
             <a className="btn sm danger" onClick={handleClick}>
               Delete
             </a>

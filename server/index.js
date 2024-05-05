@@ -32,7 +32,7 @@ db.connect((err) => {
     console.log("Connected to database");
 });
 
-////////////(get data)\\\\\\\\\\\\\\\\\\
+////////////(get-user_data)\\\\\\\\\\\\\\\\\\
 app.get("/api/data", (req, res) => {
     const sql = "SELECT * FROM user";
     db.query(sql, (err, result) => {
@@ -44,7 +44,7 @@ app.get("/api/data", (req, res) => {
     });
 });
 
-////////////(register)\\\\\\\\\\\\\\\\\\
+////////////(register-user)\\\\\\\\\\\\\\\\\\
 app.post("/api/data", (req, res) => {
     const sql = `INSERT INTO user (name, email, password) VALUES ('${req.body.name}', '${req.body.email}', '${req.body.password}')`;
     db.query(sql, (err, result) => {
@@ -55,7 +55,7 @@ app.post("/api/data", (req, res) => {
     });
 });
 
-/////////////////(get blog)\\\\\\\\\\\\\\\\\\\\\\
+/////////////////(get-blog)\\\\\\\\\\\\\\\\\\\\\\
 app.get("/api/blog", (req, res) => {
     const sql = "SELECT * FROM blog";
     db.query(sql, (err, result) => {
@@ -67,7 +67,20 @@ app.get("/api/blog", (req, res) => {
     });
 });
 
-////////////(create post)\\\\\\\\\\\\\\\\\\
+/////////////////(get-single_blog)\\\\\\\\\\\\\\\\\\\\\\
+app.get("/api/blog/:id", (req, res) => {
+    const id = req.params.id
+    const sql = `SELECT * FROM blog WHERE idblog = ${id}`;
+    db.query(sql, (err, result) => {
+        if (err) {
+            throw err;
+        }
+        console.log({ result });
+        res.json(result);
+    });
+});
+
+////////////(create-post)\\\\\\\\\\\\\\\\\\
 app.post("/api/blog", (req, res) => {
     const sql = `INSERT INTO blog (userid, title, category, about, author, thumbnail) VALUES ('${req.body.userid}', '${req.body.title}', '${req.body.category}', '${req.body.about}', '${req.body.author}', '${req.body.thumbnail}')`;
     db.query(sql, (err, result) => {
@@ -78,10 +91,22 @@ app.post("/api/blog", (req, res) => {
     });
 });
 
-////////////(delete post)\\\\\\\\\\\\\\\\\\
+////////////(delete-post)\\\\\\\\\\\\\\\\\\
 app.delete("/api/blog/:id", (req, res) => {
     const postId = req.params.id;
     const sql = `DELETE FROM blog WHERE idblog = ${postId}`;
+    db.query(sql, (err, result) => {
+        if (err) {
+            throw err;
+        }
+        res.json(result);
+    });
+});
+
+////////////(update-post)\\\\\\\\\\\\\\\\\\
+app.patch("/api/edit-blog/:id", (req, res) => {
+    const postId = req.params.id;
+    const sql = `UPDATE blog SET title = '${req.body.title}', category = '${req.body.category}', about = '${req.body.about}', author = '${req.body.author}', thumbnail = '${req.body.thumbnail}' WHERE idblog = ${postId}`;
     db.query(sql, (err, result) => {
         if (err) {
             throw err;
