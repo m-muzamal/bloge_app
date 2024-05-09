@@ -11,25 +11,31 @@ function CreatePost() {
   const [thumbnail, setThumbnail] = useState("");
   const [error, setError] = useState("");
 
-  const handleClick = () => {
+  const handleClick = async () => {
     if (title === "" || category === "Uncategorized" || discription === "") {
-      setError("Please fill all the fileds.");
-      setTimeout(() => {
-        setError("");
-      }, 2000);
+      displayErr("Please fill all the fileds.");
       return;
     }
-    axios.post("http://localhost:3001/api/blog", {
-      userid: "5",
-      title: title,
-      category: category,
-      about: discription,
-      author: data.name,
-      thumbnail: thumbnail,
-    });
-    // console.log(title, category, discription, thumbnail);
-    alert("The blog is successfully created.");
-    reset();
+
+    try {
+      const res = await axios.post("http://localhost:3001/api/blog", {
+        userid: "5",
+        title: title,
+        category: category,
+        about: discription,
+        author: data.name,
+        thumbnail: thumbnail,
+      });
+      // console.log(title, category, discription, thumbnail);
+      if (res.status === 200) {
+        alert("The blog is successfully created.");
+        reset();
+      } else {
+        throw new Error("Somthing went wrong in creating log!");
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const modules = {
@@ -77,6 +83,13 @@ function CreatePost() {
     setDiscription("");
     setThumbnail("");
     setTitle("");
+  };
+
+  const displayErr = (msg) => {
+    setError(msg);
+    setTimeout(() => {
+      setError("");
+    }, 2000);
   };
 
   return (

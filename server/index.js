@@ -82,7 +82,11 @@ app.get("/api/blog/:id", (req, res) => {
 
 ////////////(create-post)\\\\\\\\\\\\\\\\\\
 app.post("/api/blog", (req, res) => {
-    const sql = `INSERT INTO blog (userid, title, category, about, author, thumbnail) VALUES ('${req.body.userid}', '${req.body.title}', '${req.body.category}', '${req.body.about}', '${req.body.author}', '${req.body.thumbnail}')`;
+
+    const str = req.body.about;
+    const about = str.replace(/'/g, '"');
+
+    const sql = `INSERT INTO blog (userid, title, category, about, author, thumbnail) VALUES ('${req.body.userid}', '${req.body.title}', '${req.body.category}', '${about}', '${req.body.author}', '${req.body.thumbnail}')`;
     db.query(sql, (err, result) => {
         if (err) {
             throw err;
@@ -106,7 +110,11 @@ app.delete("/api/blog/:id", (req, res) => {
 ////////////(update-post)\\\\\\\\\\\\\\\\\\
 app.patch("/api/edit-blog/:id", (req, res) => {
     const postId = req.params.id;
-    const sql = `UPDATE blog SET title = '${req.body.title}', category = '${req.body.category}', about = '${req.body.about}', author = '${req.body.author}', thumbnail = '${req.body.thumbnail}' WHERE idblog = ${postId}`;
+
+    const str = req.body.about;
+    const about = str.replace(/'/g, '"');
+
+    const sql = `UPDATE blog SET title = '${req.body.title}', category = '${req.body.category}', about = '${about}', author = '${req.body.author}', thumbnail = '${req.body.thumbnail}' WHERE idblog = ${postId}`;
     db.query(sql, (err, result) => {
         if (err) {
             throw err;

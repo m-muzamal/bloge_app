@@ -257,6 +257,7 @@ footer {
   border-radius: var(--card-border-radius-3);
   overflow: hidden;
   height: 16rem;
+  cursor: pointer;
 }
 
 .post_content {
@@ -309,8 +310,8 @@ footer {
 
 .post-detail_thumbnail {
   margin: 1rem 0;
-  height: fit-content;
-  max-height: 30rem;
+  height: auto;
+  /* max-height: 30rem; */
   overflow: hidden;
 }
 
