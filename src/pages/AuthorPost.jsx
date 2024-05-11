@@ -7,7 +7,7 @@ import useFetch from "../hook/useFetch";
 const AuthorPost = () => {
   const peram = useParams();
   // console.log(peram);
-  const data = useFetch("http://localhost:3001/api/blog");
+  const data = useFetch("http://localhost:5000/api/blog");
   const posts = data?.filter((data) => data?.author === peram?.id);
   // console.log(posts);
 

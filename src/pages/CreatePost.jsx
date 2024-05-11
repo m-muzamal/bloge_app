@@ -4,7 +4,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
 function CreatePost() {
-  const data = JSON.parse(localStorage.getItem("user")) || "";
+  const data = JSON.parse(sessionStorage.getItem("user")) || "";
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("Uncategorized");
   const [discription, setDiscription] = useState("");
@@ -18,7 +18,7 @@ function CreatePost() {
     }
 
     try {
-      const res = await axios.post("http://localhost:3001/api/blog", {
+      const res = await axios.post("http://localhost:5000/api/blog", {
         userid: "5",
         title: title,
         category: category,

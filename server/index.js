@@ -84,7 +84,7 @@ app.get("/api/blog/:id", (req, res) => {
 app.post("/api/blog", (req, res) => {
 
     const str = req.body.about;
-    const about = str.replace(/'/g, '"');
+    const about = str?.replace(/'/g, '"');
 
     const sql = `INSERT INTO blog (userid, title, category, about, author, thumbnail) VALUES ('${req.body.userid}', '${req.body.title}', '${req.body.category}', '${about}', '${req.body.author}', '${req.body.thumbnail}')`;
     db.query(sql, (err, result) => {
@@ -112,7 +112,7 @@ app.patch("/api/edit-blog/:id", (req, res) => {
     const postId = req.params.id;
 
     const str = req.body.about;
-    const about = str.replace(/'/g, '"');
+    const about = str?.replace(/'/g, '"');
 
     const sql = `UPDATE blog SET title = '${req.body.title}', category = '${req.body.category}', about = '${about}', author = '${req.body.author}', thumbnail = '${req.body.thumbnail}' WHERE idblog = ${postId}`;
     db.query(sql, (err, result) => {
@@ -123,6 +123,7 @@ app.patch("/api/edit-blog/:id", (req, res) => {
     });
 });
 
-app.listen(3001, () => {
-    console.log("Server running on port 3001");
+const PORT = 5000
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
 });

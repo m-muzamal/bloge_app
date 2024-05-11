@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 
 const Category = () => {
   const peram = useParams();
-  const data = useFetch("http://localhost:3001/api/blog");
+  const data = useFetch("http://localhost:5000/api/blog");
   const filter = data?.filter((data) => data?.category === peram?.category);
 
   return (

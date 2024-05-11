@@ -5,10 +5,11 @@ import useFetch from "../hook/useFetch";
 import deletePost from "../hook/deletePost";
 
 function PostDetail() {
-  const isLoggedIn = JSON.parse(localStorage.getItem("isLoggedIn"));
+  const user = JSON.parse(sessionStorage.getItem("user"));
+  const isLoggedIn = JSON.parse(sessionStorage.getItem("isLoggedIn"));
   const navigate = useNavigate();
   const peram = useParams();
-  const data = useFetch("http://localhost:3001/api/blog");
+  const data = useFetch("http://localhost:5000/api/blog");
   const post = data?.find((data) => data.idblog === Number(peram.id));
 
   const handleClick = () => {
@@ -20,9 +21,15 @@ function PostDetail() {
 
   const handleNavigate = () => {
     !isLoggedIn && alert("You have to login first!");
-    isLoggedIn
-      ? navigate(`/posts/${Number(peram.id)}/edit`)
-      : navigate("/login");
+    if (user.name === post.author) {
+      isLoggedIn
+        ? navigate(`/posts/${Number(peram.id)}/edit`)
+        : navigate("/login");
+    } else {
+      alert(
+        `You can't edit this post!\nOnly ${post.author} can edit this post.`
+      );
+    }
   };
 
   return (
@@ -30,18 +37,20 @@ function PostDetail() {
       <div className="container post-detail_container">
         <div className="post-detail_header">
           <PostAuthor name={post?.author} />
-          <div className="post-detail_buttons">
-            <a
-              onClick={handleNavigate}
-              // to={`/posts/${Number(peram.id)}/edit`}
-              className="btn sm primary"
-            >
-              Edit
-            </a>
-            <a className="btn sm danger" onClick={handleClick}>
-              Delete
-            </a>
-          </div>
+          {isLoggedIn && (
+            <div className="post-detail_buttons">
+              <a
+                onClick={handleNavigate}
+                // to={`/posts/${Number(peram.id)}/edit`}
+                className="btn sm primary"
+              >
+                Edit
+              </a>
+              <a className="btn sm danger" onClick={handleClick}>
+                Delete
+              </a>
+            </div>
+          )}
         </div>
         <h1>{post?.title}</h1>
         <div className="post-detail_thumbnail">

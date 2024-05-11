@@ -1,8 +1,9 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 function Register() {
+  const [data, setData] = useState();
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const [userData, setUserData] = useState({
@@ -25,27 +26,48 @@ function Register() {
       userData.email === "" ||
       userData.password === ""
     ) {
-      setError("Please fill all the fields!");
-      setTimeout(() => {
-        setError("");
-      }, 2000);
+      displayErr("Please fill all the fields!");
     } else {
-      if (userData.password === userData.password2) {
-        axios.post("http://localhost:3001/api/data", {
-          name: userData.name,
-          email: userData.email,
-          password: userData.password,
-        });
-        // localStorage.setItem("user", JSON.stringify(userData));
-        alert("You are seccessfully registered.");
-        navigate("/login");
+      if (!validate(userData.email)) {
+        if (userData.password === userData.password2) {
+          axios.post("http://localhost:5000/api/data", {
+            name: userData.name,
+            email: userData.email,
+            password: userData.password,
+          });
+          // localStorage.setItem("user", JSON.stringify(userData));
+          alert("You are seccessfully registered.");
+          navigate("/login");
+        } else {
+          displayErr("Confirm password is not matched!");
+        }
       } else {
-        setError("Confirm password is not matched!");
-        setTimeout(() => {
-          setError("");
-        }, 2000);
+        displayErr("This email is already exist!");
       }
     }
+  };
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await axios.get("http://localhost:5000/api/data");
+        setData(res.data);
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+  }, []);
+
+  const validate = (email) => {
+    const valid = data?.some((item) => item.email === email);
+    return valid;
+  };
+
+  const displayErr = (msg) => {
+    setError(msg);
+    setTimeout(() => {
+      setError("");
+    }, 2000);
   };
 
   return (

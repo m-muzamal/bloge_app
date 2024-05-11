@@ -12,7 +12,7 @@ function Login() {
   });
 
   useEffect(() => {
-    fetch("http://localhost:3001/api/data")
+    fetch("http://localhost:5000/api/data")
       .then((response) => response.json())
       .then((data) => setData(data))
       .catch((error) => console.error(error));
@@ -44,8 +44,8 @@ function Login() {
       )
     ) {
       alert("You are logged in.");
-      localStorage.setItem("isLoggedIn", true);
-      localStorage.setItem("user", JSON.stringify(user));
+      sessionStorage.setItem("isLoggedIn", true);
+      sessionStorage.setItem("user", JSON.stringify(user));
       navigate("/");
       window.location.reload();
     } else if (

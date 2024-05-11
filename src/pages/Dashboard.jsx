@@ -7,7 +7,7 @@ import deletePost from "../hook/deletePost";
 function Dashboard() {
   const peram = useParams();
   // console.log(peram.id);
-  const data = useFetch("http://localhost:3001/api/blog");
+  const data = useFetch("http://localhost:5000/api/blog");
   const authorPost = data?.filter((data) => data?.author === peram?.id);
   // console.log(authorPost);
 

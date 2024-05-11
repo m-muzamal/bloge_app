@@ -4,7 +4,7 @@ import Avatar from "../assets/images/avtr.jpg";
 import { FaEdit, FaCheck } from "react-icons/fa";
 
 function UserProfile() {
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = JSON.parse(sessionStorage.getItem("user"));
   const [err, setErr] = useState("");
   const [avatar, setAvatar] = useState(Avatar);
   const [name, setName] = useState("");

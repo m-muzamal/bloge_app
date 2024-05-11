@@ -5,9 +5,9 @@ import { FaBars } from "react-icons/fa";
 import { AiOutlineClose } from "react-icons/ai";
 
 function Header() {
-  const isLoggedIn = JSON.parse(localStorage.getItem("isLoggedIn"));
+  const isLoggedIn = JSON.parse(sessionStorage.getItem("isLoggedIn"));
   // console.log(isLoggedIn);
-  const user = JSON.parse(localStorage.getItem("user")) || "";
+  const user = JSON.parse(sessionStorage.getItem("user")) || "";
   // console.log(user);
   const [name, setName] = useState(user.name || "");
   const [isNavShowing, setIsNavShowing] = useState(
@@ -24,8 +24,8 @@ function Header() {
 
   const handleClick = () => {
     if (confirm("Are you shure you want to logout?")) {
-      localStorage.removeItem("user");
-      localStorage.setItem("isLoggedIn", false);
+      sessionStorage.removeItem("user");
+      sessionStorage.setItem("isLoggedIn", false);
       window.location.reload();
     }
   };

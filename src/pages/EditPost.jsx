@@ -17,7 +17,7 @@ function EditPost() {
   useEffect(() => {
     (async () => {
       try {
-        const res = await axios.get(`http://localhost:3001/api/blog/${id}`);
+        const res = await axios.get(`http://localhost:5000/api/blog/${id}`);
         const data = res.data;
         setTitle(data[0]?.title);
         setCategory(data[0]?.category);
@@ -83,7 +83,7 @@ function EditPost() {
     (async () => {
       try {
         await axios
-          .patch(`http://localhost:3001/api/edit-blog/${Number(id)}`, {
+          .patch(`http://localhost:5000/api/edit-blog/${Number(id)}`, {
             author: author,
             title: title,
             category: category,
