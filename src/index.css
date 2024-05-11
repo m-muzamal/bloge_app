@@ -498,8 +498,14 @@ textarea {
 
 .dashboard_post-thumbnail {
   width: 4rem;
+  height: 3rem;
   border-radius: var(--card-border-radius-1);
   overflow: hidden;
+}
+.dashboard_post-thumbnail > img {
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
 }
 
 .dashboard_post-actions {
