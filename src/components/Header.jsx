@@ -31,6 +31,11 @@ function Header() {
               </Link>
             </li>
             <li>
+              <Link to="/" onClick={closeNave}>
+                Home
+              </Link>
+            </li>
+            <li>
               <Link to="/create" onClick={closeNave}>
                 Create Post
               </Link>
@@ -42,7 +47,7 @@ function Header() {
             </li>
             <li>
               <Link to="/logout" onClick={closeNave}>
-                LogOut
+                Logout
               </Link>
             </li>
           </ul>
