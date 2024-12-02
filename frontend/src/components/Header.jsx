@@ -31,6 +31,11 @@ function Header() {
               </Link>
             </li>
             <li>
+              <Link to="/" onClick={closeNave}>
+                Home
+              </Link>
+            </li>
+            <li>
               <Link to="/create" onClick={closeNave}>
                 Create Post
               </Link>
